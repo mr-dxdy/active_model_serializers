@@ -67,6 +67,14 @@ module ActiveModelSerializers
 
           assert_equal(expected, hash[:post])
         end
+
+        def test_fields_in_belongs_to
+          fields = [:title, {author: [ :name ]}]
+          hash = serializable(@post, adapter: :json, include: [:author], fields: fields).serializable_hash
+          expected = { title: @post.title, author: { name: @author.name } }
+
+          assert_equal(expected, hash[:post])
+        end
       end
     end
   end
