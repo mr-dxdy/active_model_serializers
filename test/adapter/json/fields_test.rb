@@ -59,6 +59,14 @@ module ActiveModelSerializers
 
           assert_equal(expected, hash[:post][:comments])
         end
+
+        def test_fields_with_deep_wildcard
+          fields = [:*, {comments: [ :body ]}]
+          hash = serializable(@post, adapter: :json, include: [:comments], fields: fields).serializable_hash
+          expected = { title: @post.title, body: @post.body, comments: [{ body: @comment1.body }, { body: @comment2.body }] }
+
+          assert_equal(expected, hash[:post])
+        end
       end
     end
   end

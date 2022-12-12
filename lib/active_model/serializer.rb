@@ -336,8 +336,11 @@ module ActiveModel
     def attributes(requested_attrs = nil, reload = false)
       @attributes = nil if reload
       @attributes ||= self.class._attributes_data.each_with_object({}) do |(key, attr), hash|
+        show_all_fields = requested_attrs.nil? || requested_attrs == %i[*]
+
         next if attr.excluded?(self)
-        next unless requested_attrs.nil? || requested_attrs.include?(key)
+        next unless show_all_fields || requested_attrs.include?(key)
+
         hash[key] = attr.value(self)
       end
     end

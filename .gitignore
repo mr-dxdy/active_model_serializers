@@ -23,6 +23,7 @@ tmp
 .ruby-gemset
 vendor/bundle
 tags
+/.rake_tasks~
 
 # silly macs
 .DS_Store
